@@ -1,0 +1,45 @@
+kafka:
+  bootstrap_servers: "localhost:9092"
+  topics:
+    transactions_raw: "transactions.raw"
+    transactions_scored: "transactions.scored"
+    fraud_alerts: "fraud.alerts"
+    dead_letter: "fraud.alerts.dead-letter"
+  consumer:
+    group_id: "fraud-detector-v2"
+    auto_offset_reset: "latest"
+    max_poll_records: 500
+  producer:
+    acks: "all"
+    compression: "snappy"
+    batch_size: 65536
+    linger_ms: 5
+
+redis:
+  host: "localhost"
+  port: 6379
+  db: 0
+  max_connections: 20
+
+fraud_detection:
+  score_threshold_alert: 0.3
+  score_threshold_block: 0.8
+  ml_weight: 0.65
+  rule_weight: 0.35
+
+rules:
+  velocity_txn_limit: 8
+  velocity_amount_limit: 5000
+  amount_spike_ratio: 6.0
+  geo_distance_km: 400
+  high_amount_online: 2500
+
+producer:
+  tps: 1000
+  fraud_rate: 0.015
+  n_users: 50000
+  n_merchants: 5000
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s [%(levelname)s] %(name)s — %(message)s"
